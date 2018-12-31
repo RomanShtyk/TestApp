@@ -18,6 +18,7 @@ import java.util.List;
 
 public class MessageChatAdapter extends BaseAdapter {
 
+    static final int dayMillis = 86400000;
     private final LayoutInflater lInflater;
     private List<Message> messages;
 
@@ -59,15 +60,47 @@ public class MessageChatAdapter extends BaseAdapter {
         if (messages.get(position).getIsFromMe() == 1) {
             view = lInflater.inflate(R.layout.layout_chat_out, parent, false);
             ((TextView) view.findViewById(R.id.message)).setText(messages.get(position).getMessage());
-            ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForDateNow.
+            ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForTimeNow.
                     format(date));
+            //date comparing for chat division by date
+            if (position == 0) {
+                ((TextView) view.findViewById(R.id.dayOut)).setText(MainActivity.formatForDateNow.
+                        format(date));
+            } else {
+                long date1 = messages.get(position).getTime();
+                long date2 = messages.get(position - 1).getTime();
+
+                if (date1 / dayMillis > date2 / dayMillis) {
+                    ((TextView) view.findViewById(R.id.dayOut)).setText(MainActivity.formatForDateNow.
+                            format(date));
+                } else {
+                    view.findViewById(R.id.dayOut).setVisibility(View.GONE);
+                }
+            }
+
         } else if (messages.get(position).getIsFromMe() == 0) {
+
             view = lInflater.inflate(R.layout.layout_chat_in, parent, false);
             ((TextView) view.findViewById(R.id.message)).setText(messages.get(position).getMessage());
-            ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForDateNow.
+            ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForTimeNow.
                     format(date));
             ImageView imageView = view.findViewById(R.id.imageChat);
             imageView.setImageResource(MainActivity.myAppDatabase.daoUser().getUserById(messages.get(0).getUser_id()).getImage());
+            //date comparing for chat division by date
+            if (position == 0) {
+                ((TextView) view.findViewById(R.id.day)).setText(MainActivity.formatForDateNow.
+                        format(date));
+            } else {
+                long date1 = messages.get(position).getTime();
+                long date2 = messages.get(position - 1).getTime();
+
+                if (date1 / dayMillis > date2 / dayMillis) {
+                    ((TextView) view.findViewById(R.id.day)).setText(MainActivity.formatForDateNow.
+                            format(date));
+                } else {
+                    view.findViewById(R.id.day).setVisibility(View.GONE);
+                }
+            }
         }
         return view;
     }

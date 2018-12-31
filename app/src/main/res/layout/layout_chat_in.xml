@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:layout_editor_absoluteY="81dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardChat"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
         android:elevation="12dp"
-        app:cardCornerRadius="40dp">
+        app:cardCornerRadius="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/day">
 
         <ImageView
             android:id="@+id/imageChat"
@@ -22,17 +26,15 @@
             android:scaleType="centerCrop" />
     </android.support.v7.widget.CardView>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cardChat"
-        android:layout_marginStart="51dp"
-        android:layout_marginTop="-39dp"
         android:background="@drawable/in"
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintStart_toEndOf="@+id/cardChat"
+        app:layout_constraintTop_toBottomOf="@+id/day">
 
         <TextView
             android:id="@+id/message"
@@ -41,26 +43,40 @@
             android:layout_below="@id/userName"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="0dp"
             android:padding="1dp"
             android:text="@string/any"
             android:textColor="@color/black"
             android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlHardcoded" />
 
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_below="@+id/message"
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="-14dp"
+            android:layout_marginStart="4dp"
             android:layout_toEndOf="@+id/message"
             android:layout_toRightOf="@+id/message"
             android:text="@string/time"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/message"
             tools:ignore="RtlHardcoded" />
-    </RelativeLayout>
-</RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="@string/any"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

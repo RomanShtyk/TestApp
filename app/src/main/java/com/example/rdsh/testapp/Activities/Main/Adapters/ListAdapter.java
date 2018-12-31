@@ -16,6 +16,8 @@ import com.example.rdsh.testapp.R;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.rdsh.testapp.Activities.Main.Adapters.MessageChatAdapter.dayMillis;
+
 public class ListAdapter extends BaseAdapter {
 
     private final LayoutInflater lInflater;
@@ -60,10 +62,18 @@ public class ListAdapter extends BaseAdapter {
             ((TextView) view.findViewById(R.id.lastMessage)).setText(user.getChatHistory()
                     .get((user.getChatHistory().size() - 1)).getMessage());
 
+        long dateNow = new Date().getTime();
+
         Date date = new Date(user.getChatHistory()
                 .get((user.getChatHistory().size() - 1)).getTime());
+        if (dateNow / dayMillis - user.getChatHistory()
+                .get((user.getChatHistory().size() - 1)).getTime() / dayMillis > 1) {
+            ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForDateNow.format(date));
+        } else if (dateNow / dayMillis - user.getChatHistory()
+                .get((user.getChatHistory().size() - 1)).getTime() / dayMillis == 0) {
+            ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForTimeNow.format(date));
+        }
 
-        ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForDateNow.format(date));
         ImageView imageView = view.findViewById(R.id.image);
         imageView.setImageResource(user.getImage());
         return view;

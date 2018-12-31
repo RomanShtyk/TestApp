@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     public static ChatFragment chatFragment;
 
+    public static SimpleDateFormat formatForTimeNow;
     public static SimpleDateFormat formatForDateNow;
 
     @SuppressLint("SimpleDateFormat")
@@ -44,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        formatForDateNow = new SimpleDateFormat("hh:mm");
+        formatForTimeNow = new SimpleDateFormat("hh:mm");
+        formatForDateNow = new SimpleDateFormat("dd MMM yyyy");
         //.fallbackToDestructiveMigration() bad practise
         myAppDatabase = Room.databaseBuilder(MyApplication.getAppContext(), MyAppDatabase.class, "chatApp")
                 .fallbackToDestructiveMigration().allowMainThreadQueries().build();
