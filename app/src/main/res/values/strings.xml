@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Test App</string>
+    <string name="send">SEND</string>
+    <string name="notification_test">Notification Test</string>
+    <string name="enter_message">Enter message</string>
+    <string name="choose_the_chat">Choose the chat</string>
+    <string name="any">any</string>
+    <string name="anysfsv">anysfsv</string>
+    <string name="hello_how_are_you">Hello, how are you??)))</string>
+    <string name="time">Time</string>
+    <string name="name">Name</string>
+    <string name="todo">TODO</string>
+</resources>
