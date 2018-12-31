@@ -126,10 +126,10 @@ public class MainActivity extends AppCompatActivity {
                 List<User> users = myAppDatabase.daoUser().getAll();
                 long time = new Date().getTime();
 
-                Message message = new Message("Hi!", time, TRUE, users.get(0).getId());
-                Message message1 = new Message("Hi!", time, FALSE, users.get(0).getId());
-                Message message2 = new Message("Hi!", time, TRUE, users.get(1).getId());
-                Message message3 = new Message("Hi!", time, FALSE, users.get(1).getId());
+                Message message = new Message("Hi!", time, TRUE, users.get(0).getId(), 0);
+                Message message1 = new Message("Hi!", time, FALSE, users.get(0).getId(), 0);
+                Message message2 = new Message("Hi!", time, TRUE, users.get(1).getId(), 0);
+                Message message3 = new Message("Hi!", time, FALSE, users.get(1).getId(), 0);
                 myAppDatabase.daoMessage().addMessage(message);
                 myAppDatabase.daoMessage().addMessage(message1);
                 myAppDatabase.daoMessage().addMessage(message2);

@@ -16,12 +16,23 @@ public class Message {
     private int isFromMe;
     @ColumnInfo(name = "userid")
     private int user_id;
+    @ColumnInfo(name = "isreaded")
+    private int isReaded;
 
-    public Message(String message, long time, int isFromMe, int user_id) {
+    public int getIsReaded() {
+        return isReaded;
+    }
+
+    public void setIsReaded(int isReaded) {
+        this.isReaded = isReaded;
+    }
+
+    public Message(String message, long time, int isFromMe, int user_id, int isReaded) {
         this.message = message;
         this.time = time;
         this.isFromMe = isFromMe;
         this.user_id = user_id;
+        this.isReaded = isReaded;
     }
 
     public int getId() {

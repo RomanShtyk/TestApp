@@ -79,7 +79,7 @@ public class MessageChatAdapter extends BaseAdapter {
             }
 
         } else if (messages.get(position).getIsFromMe() == 0) {
-
+            messages.get(position).setIsReaded(1);
             view = lInflater.inflate(R.layout.layout_chat_in, parent, false);
             ((TextView) view.findViewById(R.id.message)).setText(messages.get(position).getMessage());
             ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForTimeNow.

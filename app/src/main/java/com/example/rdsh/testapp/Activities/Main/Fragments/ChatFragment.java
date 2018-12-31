@@ -96,7 +96,7 @@ public class ChatFragment extends Fragment {
                 String newMessage = creatorEd.getText().toString();
                 creatorEd.setText("");
                 long time = new Date().getTime();
-                Message message = new Message(newMessage, time, TRUE, sortedList.get(finalItemPosition1).getId());
+                Message message = new Message(newMessage, time, TRUE, sortedList.get(finalItemPosition1).getId(), 0);
                 MainActivity.myAppDatabase.daoMessage().addMessage(message);
                 messageChatAdapter.updateList(MainActivity.myAppDatabase.daoMessage()
                         .getChatByUserId(sortedList.get(finalItemPosition1).getId()));
@@ -144,7 +144,7 @@ public class ChatFragment extends Fragment {
                 if (!stopMe) {
                     long date = new Date().getTime();
                     Message message = new Message("testNotify #" + (i++ + 1),
-                            date, FALSE, sortedList.get(finalItemPosition1).getId());
+                            date, FALSE, sortedList.get(finalItemPosition1).getId(), 0);
                     MainActivity.myAppDatabase.daoMessage().addMessage(message);
                     if (i > nTimes) {
                         stopMe = true;
