@@ -2,6 +2,7 @@ package com.example.rdsh.testapp.Activities.Main.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,15 +86,25 @@ public class MessageChatAdapter extends BaseAdapter {
             ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForTimeNow.
                     format(date));
             ImageView imageView = view.findViewById(R.id.imageChat);
-            imageView.setImageResource(MainActivity.myAppDatabase.daoUser().getUserById(messages.get(0).getUser_id()).getImage());
+            CardView cardView = view.findViewById(R.id.cardChat);
             //date comparing for chat division by date
             if (position == 0) {
                 ((TextView) view.findViewById(R.id.day)).setText(MainActivity.formatForDateNow.
                         format(date));
+                //set image just for first message
+                imageView.setImageResource(MainActivity.myAppDatabase.daoUser()
+                        .getUserById(messages.get(0).getUser_id()).getImage());
+
             } else {
                 long date1 = messages.get(position).getTime();
                 long date2 = messages.get(position - 1).getTime();
-
+                int previousIsFromMe = messages.get(position - 1).getIsFromMe();
+                if (previousIsFromMe == 0) {
+                    cardView.setVisibility(View.INVISIBLE);
+                } else if (previousIsFromMe == 1) {
+                    imageView.setImageResource(MainActivity.myAppDatabase.daoUser().
+                            getUserById(messages.get(0).getUser_id()).getImage());
+                }
                 if (date1 / dayMillis > date2 / dayMillis) {
                     ((TextView) view.findViewById(R.id.day)).setText(MainActivity.formatForDateNow.
                             format(date));

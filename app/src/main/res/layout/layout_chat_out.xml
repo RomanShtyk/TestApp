@@ -14,7 +14,8 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="0dp"
         android:background="@drawable/newout"
-        tools:layout_editor_absoluteX="107dp">
+        tools:layout_editor_absoluteX="107dp"
+        tools:ignore="RelativeOverlap">
 
         <TextView
             android:id="@+id/message"

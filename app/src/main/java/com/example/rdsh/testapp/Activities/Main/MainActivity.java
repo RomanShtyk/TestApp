@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                         .add(R.id.ChatListFragment, fragmentChatList).commit();
             }
         }
+        Log.d("mLog", "MainActivity onCreate");
     }
 
 
@@ -147,5 +149,37 @@ public class MainActivity extends AppCompatActivity {
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             super.onBackPressed();
         }
+    }
+
+    //logging
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("mLog", "MainActivity onResume");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("mLog", "MainActivity onStop");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("mLog", "MainActivity onPause");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("mLog", "MainActivity onStart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("mLog", "MainActivity onDestroy");
     }
 }

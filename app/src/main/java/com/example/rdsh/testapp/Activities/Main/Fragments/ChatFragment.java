@@ -9,8 +9,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +69,7 @@ public class ChatFragment extends Fragment {
         lvMain.setAdapter(messageChatAdapter);
         finalItemPosition1 = itemPosition;
         uiInit(view);
+        Log.d("mLog", "ChatFragment onCreateView");
         return view;
     }
 
@@ -105,8 +108,8 @@ public class ChatFragment extends Fragment {
                             .attach(fragmentChatList).commit();
                 }
                 Bundle bundle = new Bundle();
-                    bundle.putInt("position", 0);
-                    chatFragment.setArguments(bundle);
+                bundle.putInt("position", 0);
+                chatFragment.setArguments(bundle);
             }
 
         });
@@ -172,7 +175,57 @@ public class ChatFragment extends Fragment {
 
         ((MainActivity) Objects.requireNonNull(getActivity()))
                 .setActionBarTitle(title);
+        Log.d("mLog", "ChatFragment onResume");
+    }
 
+    //logging
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d("mLog", "ChatFragment onCreate");
+        //setRetainInstance(true);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d("mLog", "ChatFragment onAttach");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d("mLog", "ChatFragment onDetach");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("mLog", "ChatFragment onStart");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("mLog", "ChatFragment onStop");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("mLog", "ChatFragment onPause");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("mLog", "ChatFragment onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("mLog", "ChatFragment onDestroy");
     }
 
 }
