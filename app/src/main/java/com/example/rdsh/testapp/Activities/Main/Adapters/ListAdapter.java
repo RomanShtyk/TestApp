@@ -16,10 +16,8 @@ import com.example.rdsh.testapp.R;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.rdsh.testapp.Activities.Main.Adapters.MessageChatAdapter.dayMillis;
 
 public class ListAdapter extends BaseAdapter {
-
     private final LayoutInflater lInflater;
     private final List<User> users;
 
@@ -66,8 +64,9 @@ public class ListAdapter extends BaseAdapter {
 
         Date date = new Date(user.getChatHistory()
                 .get((user.getChatHistory().size() - 1)).getTime());
+        int dayMillis = 86400000;
         if (dateNow / dayMillis - user.getChatHistory()
-                .get((user.getChatHistory().size() - 1)).getTime() / dayMillis > 1) {
+                .get((user.getChatHistory().size() - 1)).getTime() / dayMillis >= 1) {
             ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForDateNow.format(date));
         } else if (dateNow / dayMillis - user.getChatHistory()
                 .get((user.getChatHistory().size() - 1)).getTime() / dayMillis == 0) {

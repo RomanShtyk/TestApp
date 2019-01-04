@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MessageChatAdapter extends BaseAdapter {
 
-    static final int dayMillis = 86400000;
+    private static final int dayMillis = 86400000;
     private final LayoutInflater lInflater;
     private List<Message> messages;
 

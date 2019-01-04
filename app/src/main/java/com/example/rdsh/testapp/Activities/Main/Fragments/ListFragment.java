@@ -61,7 +61,8 @@ public class ListFragment extends Fragment {
                         getFragmentManager().beginTransaction().remove(chatFragment)
                                 .add(R.id.container, chatFragment).addToBackStack(null).commit();
                     } else {
-                        Objects.requireNonNull(getActivity()).findViewById(R.id.tvChooseChat).setVisibility(View.GONE);
+                        Objects.requireNonNull(getActivity()).findViewById(R.id.tvChooseChat)
+                                .setVisibility(View.GONE);
                         assert getFragmentManager() != null;
                         getFragmentManager().beginTransaction()
                                 .add(R.id.container, chatFragment).addToBackStack(null).commit();
