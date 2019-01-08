@@ -1,4 +1,4 @@
-package com.example.rdsh.testapp.Activities.Main.Fragments;
+package com.example.rdsh.testapp.Activities.main.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -20,20 +20,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.rdsh.testapp.Activities.Main.MainActivity;
-import com.example.rdsh.testapp.Activities.Main.Adapters.MessageChatAdapter;
-import com.example.rdsh.testapp.Data.Message;
-import com.example.rdsh.testapp.Data.User;
+import com.example.rdsh.testapp.Activities.main.MainActivity;
+import com.example.rdsh.testapp.Activities.main.adapters.MessageChatAdapter;
+import com.example.rdsh.testapp.data.Message;
+import com.example.rdsh.testapp.data.User;
 import com.example.rdsh.testapp.R;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static com.example.rdsh.testapp.Activities.Main.MainActivity.FALSE;
-import static com.example.rdsh.testapp.Activities.Main.MainActivity.TRUE;
-import static com.example.rdsh.testapp.Activities.Main.MainActivity.chatFragment;
-import static com.example.rdsh.testapp.Activities.Main.MainActivity.fragmentChatList;
+import static com.example.rdsh.testapp.Activities.main.MainActivity.FALSE;
+import static com.example.rdsh.testapp.Activities.main.MainActivity.TRUE;
+import static com.example.rdsh.testapp.Activities.main.MainActivity.chatFragment;
+import static com.example.rdsh.testapp.Activities.main.MainActivity.fragmentChatList;
 
 public class ChatFragment extends Fragment {
 

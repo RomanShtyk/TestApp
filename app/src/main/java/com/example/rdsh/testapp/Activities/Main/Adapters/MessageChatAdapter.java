@@ -1,4 +1,4 @@
-package com.example.rdsh.testapp.Activities.Main.Adapters;
+package com.example.rdsh.testapp.Activities.main.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,9 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rdsh.testapp.Activities.Main.MainActivity;
-import com.example.rdsh.testapp.Data.Message;
+import com.example.rdsh.testapp.Activities.main.MainActivity;
 import com.example.rdsh.testapp.R;
+import com.example.rdsh.testapp.data.Message;
 
 import java.util.Date;
 import java.util.List;
@@ -65,17 +65,17 @@ public class MessageChatAdapter extends BaseAdapter {
                     format(date));
             //date comparing for chat division by date
             if (position == 0) {
-                ((TextView) view.findViewById(R.id.dayOut)).setText(MainActivity.formatForDateNow.
+                ((TextView) view.findViewById(R.id.day)).setText(MainActivity.formatForDateNow.
                         format(date));
             } else {
                 long date1 = messages.get(position).getTime();
                 long date2 = messages.get(position - 1).getTime();
 
                 if (date1 / dayMillis > date2 / dayMillis) {
-                    ((TextView) view.findViewById(R.id.dayOut)).setText(MainActivity.formatForDateNow.
+                    ((TextView) view.findViewById(R.id.day)).setText(MainActivity.formatForDateNow.
                             format(date));
                 } else {
-                    view.findViewById(R.id.dayOut).setVisibility(View.GONE);
+                    view.findViewById(R.id.day).setVisibility(View.GONE);
                 }
             }
 
@@ -98,10 +98,9 @@ public class MessageChatAdapter extends BaseAdapter {
             } else {
                 long date1 = messages.get(position).getTime();
                 long date2 = messages.get(position - 1).getTime();
-                int previousIsFromMe = messages.get(position - 1).getIsFromMe();
-                if (previousIsFromMe == 0) {
+                if (messages.get(position - 1).getIsFromMe() == 0) {
                     cardView.setVisibility(View.INVISIBLE);
-                } else if (previousIsFromMe == 1) {
+                } else if (messages.get(position - 1).getIsFromMe() == 1) {
                     imageView.setImageResource(MainActivity.myAppDatabase.daoUser().
                             getUserById(messages.get(0).getUser_id()).getImage());
                 }
@@ -116,7 +115,7 @@ public class MessageChatAdapter extends BaseAdapter {
         return view;
     }
 
-    private Message getMessage(int position) {
-        return (getItem(position));
-    }
+//    private Message getMessage(int position) {
+//        return (getItem(position));
+//    }
 }

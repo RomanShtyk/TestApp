@@ -1,7 +1,8 @@
-package com.example.rdsh.testapp.Activities.Main.Adapters;
+package com.example.rdsh.testapp.Activities.main.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rdsh.testapp.Activities.Main.MainActivity;
-import com.example.rdsh.testapp.Data.User;
+import com.example.rdsh.testapp.Activities.main.MainActivity;
+import com.example.rdsh.testapp.data.User;
 import com.example.rdsh.testapp.R;
+
+import org.w3c.dom.Text;
 
 import java.util.Date;
 import java.util.List;
@@ -42,22 +45,43 @@ public class ListAdapter extends BaseAdapter {
         return position;
     }
 
+    class MyViewHolder {
+        TextView userName;
+        TextView lastMessage;
+        TextView time;
+        ImageView image;
+
+        MyViewHolder(View view) {
+            userName = view.findViewById(R.id.userName);
+            lastMessage = view.findViewById(R.id.lastMessage);
+            time = view.findViewById(R.id.time);
+            image = view.findViewById(R.id.image);
+        }
+    }
+
     @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = convertView;
+        MyViewHolder holder = null;
         if (view == null) {
             view = lInflater.inflate(R.layout.layout_chat_list_item, parent, false);
+            holder = new MyViewHolder(view);
+            view.setTag(holder);
+            Log.d("mLog", "Creating new view");
+        } else {
+            holder = (MyViewHolder) view.getTag();
+            Log.d("mLog", "Recycling stuff");
         }
         User user = getUser(position);
 
-        ((TextView) view.findViewById(R.id.userName)).setText(user.getName());
+        holder.userName.setText(user.getName());
         if (user.getChatHistory().get((user.getChatHistory().size() - 1)).getIsFromMe() == 1)
-            ((TextView) view.findViewById(R.id.lastMessage)).setText("me:" + user.getChatHistory()
+            holder.lastMessage.setText("me:" + user.getChatHistory()
                     .get((user.getChatHistory().size() - 1)).getMessage());
         else
-            ((TextView) view.findViewById(R.id.lastMessage)).setText(user.getChatHistory()
+            holder.lastMessage.setText(user.getChatHistory()
                     .get((user.getChatHistory().size() - 1)).getMessage());
 
         long dateNow = new Date().getTime();
@@ -67,14 +91,13 @@ public class ListAdapter extends BaseAdapter {
         int dayMillis = 86400000;
         if (dateNow / dayMillis - user.getChatHistory()
                 .get((user.getChatHistory().size() - 1)).getTime() / dayMillis >= 1) {
-            ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForDateNow.format(date));
+            holder.time.setText(MainActivity.formatForDateNow.format(date));
         } else if (dateNow / dayMillis - user.getChatHistory()
                 .get((user.getChatHistory().size() - 1)).getTime() / dayMillis == 0) {
-            ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForTimeNow.format(date));
+            holder.time.setText(MainActivity.formatForTimeNow.format(date));
         }
 
-        ImageView imageView = view.findViewById(R.id.image);
-        imageView.setImageResource(user.getImage());
+        holder.image.setImageResource(user.getImage());
         return view;
     }
 

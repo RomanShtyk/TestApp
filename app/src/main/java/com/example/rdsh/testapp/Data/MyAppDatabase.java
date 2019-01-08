@@ -1,4 +1,4 @@
-package com.example.rdsh.testapp.Data;
+package com.example.rdsh.testapp.data;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
