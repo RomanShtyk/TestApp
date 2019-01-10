@@ -12,14 +12,18 @@ public interface DaoUser {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addUser(User user);
 
-    @Query("SELECT name FROM user where id = :id")
-    String getName(int id);
+// --Commented out by Inspection START (10.01.2019 13:25):
+//    @Query("SELECT name FROM user where id = :id")
+//    String getName(int id);
+// --Commented out by Inspection STOP (10.01.2019 13:25)
 
     @Query("SELECT * FROM user")
     List<User> getAll();
 
-    @Query("DELETE FROM user")
-    void deleteAll();
+// --Commented out by Inspection START (10.01.2019 13:25):
+//    @Query("DELETE FROM user")
+//    void deleteAll();
+// --Commented out by Inspection STOP (10.01.2019 13:25)
 
     @Query("SELECT * From user where id = :id")
     User getUserById(int id);

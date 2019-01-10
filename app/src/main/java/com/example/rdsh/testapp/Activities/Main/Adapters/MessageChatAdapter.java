@@ -17,9 +17,14 @@ import com.example.rdsh.testapp.data.Message;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.rdsh.testapp.Values.FALSE;
+import static com.example.rdsh.testapp.Values.TRUE;
+import static com.example.rdsh.testapp.Values.dayMillis;
+import static com.example.rdsh.testapp.Values.formatForDateNow;
+import static com.example.rdsh.testapp.Values.formatForTimeNow;
+
 public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.MyViewHolder> {
 
-    private static final int dayMillis = 86400000;
     private static List<Message> messages;
     private static LayoutInflater lInflater;
 
@@ -60,31 +65,31 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
 
         Date date = new Date(messages.get(position).getTime());
 
-        if (messages.get(position).getIsFromMe() == MainActivity.TRUE) {
+        if (messages.get(position).getIsFromMe() == TRUE) {
             holder.tvMessage.setText(messages.get(position).getMessage());
-            holder.tvTime.setText(MainActivity.formatForTimeNow.
+            holder.tvTime.setText(formatForTimeNow.
                     format(date));
             //date comparing for chat division by date
             if (position == 0) {
-                holder.tvDay.setText(MainActivity.formatForDateNow.format(date));
+                holder.tvDay.setText(formatForDateNow.format(date));
             } else {
                 long date1 = messages.get(position).getTime();
                 long date2 = messages.get(position - 1).getTime();
 
                 if (date1 / dayMillis > date2 / dayMillis) {
-                    holder.tvDay.setText(MainActivity.formatForDateNow.format(date));
+                    holder.tvDay.setText(formatForDateNow.format(date));
                 } else {
                     holder.tvDay.setVisibility(View.GONE);
                 }
             }
-        } else if (messages.get(position).getIsFromMe() == MainActivity.FALSE) {
+        } else if (messages.get(position).getIsFromMe() == FALSE) {
             messages.get(position).setIsReaded(1);
             holder.tvMessage.setText(messages.get(position).getMessage());
-            holder.tvTime.setText(MainActivity.formatForTimeNow.
+            holder.tvTime.setText(formatForTimeNow.
                     format(date));
             //date comparing for chat division by date
             if (position == 0) {
-                holder.tvDay.setText(MainActivity.formatForDateNow.
+                holder.tvDay.setText(formatForDateNow.
                         format(date));
                 //set image just for first message
                 holder.image.setImageResource(MainActivity.myAppDatabase.daoUser()
@@ -92,14 +97,14 @@ public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.
             } else {
                 long date1 = messages.get(position).getTime();
                 long date2 = messages.get(position - 1).getTime();
-                if (messages.get(position - 1).getIsFromMe() == MainActivity.FALSE) {
+                if (messages.get(position - 1).getIsFromMe() == FALSE) {
                     holder.card.setVisibility(View.INVISIBLE);
-                } else if (messages.get(position - 1).getIsFromMe() == MainActivity.TRUE) {
+                } else if (messages.get(position - 1).getIsFromMe() == TRUE) {
                     holder.image.setImageResource(MainActivity.myAppDatabase.daoUser().
                             getUserById(messages.get(0).getUser_id()).getImage());
                 }
                 if (date1 / dayMillis > date2 / dayMillis) {
-                    holder.tvDay.setText(MainActivity.formatForDateNow.
+                    holder.tvDay.setText(formatForDateNow.
                             format(date));
                 } else {
                     holder.tvDay.setVisibility(View.GONE);

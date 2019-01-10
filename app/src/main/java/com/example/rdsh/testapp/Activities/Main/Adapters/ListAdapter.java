@@ -10,12 +10,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rdsh.testapp.activities.main.MainActivity;
 import com.example.rdsh.testapp.data.User;
 import com.example.rdsh.testapp.R;
 
 import java.util.Date;
 import java.util.List;
+
+import static com.example.rdsh.testapp.Values.dayMillis;
+import static com.example.rdsh.testapp.Values.formatForDateNow;
+import static com.example.rdsh.testapp.Values.formatForTimeNow;
 
 
 public class ListAdapter extends BaseAdapter {
@@ -44,10 +47,10 @@ public class ListAdapter extends BaseAdapter {
     }
 
     class MyViewHolder {
-        TextView userName;
-        TextView lastMessage;
-        TextView time;
-        ImageView image;
+        final TextView userName;
+        final TextView lastMessage;
+        final TextView time;
+        final ImageView image;
 
         MyViewHolder(View view) {
             userName = view.findViewById(R.id.userName);
@@ -62,7 +65,7 @@ public class ListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View view = convertView;
-        MyViewHolder holder = null;
+        MyViewHolder holder;
         if (view == null) {
             view = lInflater.inflate(R.layout.layout_chat_list_item, parent, false);
             holder = new MyViewHolder(view);
@@ -91,13 +94,12 @@ public class ListAdapter extends BaseAdapter {
         if (user.getChatHistory().size() != 0) {
             date = new Date(user.getChatHistory()
                     .get((user.getChatHistory().size() - 1)).getTime());
-            int dayMillis = 86400000;
             if (dateNow / dayMillis - user.getChatHistory()
                     .get((user.getChatHistory().size() - 1)).getTime() / dayMillis >= 1) {
-                holder.time.setText(MainActivity.formatForDateNow.format(date));
+                holder.time.setText(formatForDateNow.format(date));
             } else if (dateNow / dayMillis - user.getChatHistory()
                     .get((user.getChatHistory().size() - 1)).getTime() / dayMillis == 0) {
-                holder.time.setText(MainActivity.formatForTimeNow.format(date));
+                holder.time.setText(formatForTimeNow.format(date));
             }
         }
         holder.image.setImageResource(user.getImage());

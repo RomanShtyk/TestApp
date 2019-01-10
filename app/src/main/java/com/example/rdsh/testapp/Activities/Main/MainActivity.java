@@ -21,33 +21,25 @@ import com.example.rdsh.testapp.data.User;
 import com.example.rdsh.testapp.MyApplication;
 import com.example.rdsh.testapp.R;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import static com.example.rdsh.testapp.Values.FALSE;
+import static com.example.rdsh.testapp.Values.TRUE;
 
 public class MainActivity extends AppCompatActivity {
 
     public static MyAppDatabase myAppDatabase;
 
-
-    public static final int TRUE = 1;
-    public static final int FALSE = 0;
-
     public static ListFragment fragmentChatList;
     @SuppressLint("StaticFieldLeak")
     public static ChatFragment chatFragment;
 
-    public static SimpleDateFormat formatForTimeNow;
-    public static SimpleDateFormat formatForDateNow;
-
-    @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        formatForTimeNow = new SimpleDateFormat("hh:mm");
-        formatForDateNow = new SimpleDateFormat("dd MMM yyyy");
         //.fallbackToDestructiveMigration() bad practise
         myAppDatabase = Room.databaseBuilder(MyApplication.getAppContext(), MyAppDatabase.class, "chatApp")
                 .fallbackToDestructiveMigration().allowMainThreadQueries().build();

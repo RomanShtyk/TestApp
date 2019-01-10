@@ -31,8 +31,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static com.example.rdsh.testapp.activities.main.MainActivity.FALSE;
-import static com.example.rdsh.testapp.activities.main.MainActivity.TRUE;
+import static com.example.rdsh.testapp.Values.FALSE;
+import static com.example.rdsh.testapp.Values.TRUE;
 import static com.example.rdsh.testapp.activities.main.MainActivity.chatFragment;
 import static com.example.rdsh.testapp.activities.main.MainActivity.fragmentChatList;
 

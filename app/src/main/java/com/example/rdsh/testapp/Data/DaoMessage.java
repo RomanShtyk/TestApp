@@ -12,12 +12,16 @@ public interface DaoMessage {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addMessage(Message message);
 
-    @Query("SELECT * From messages where id = :id")
-    Message getMessageById(int id);
+// --Commented out by Inspection START (10.01.2019 13:24):
+//    @Query("SELECT * From messages where id = :id")
+//    Message getMessageById(int id);
+// --Commented out by Inspection STOP (10.01.2019 13:24)
 
     @Query("SELECT * FROM messages where userid = :userId")
     List<Message> getChatByUserId(int userId);
 
-    @Query("DELETE FROM messages")
-    void deleteAll();
+// --Commented out by Inspection START (10.01.2019 13:24):
+//    @Query("DELETE FROM messages")
+//    void deleteAll();
+// --Commented out by Inspection STOP (10.01.2019 13:24)
 }

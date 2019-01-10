@@ -12,7 +12,7 @@ public class User {
     @PrimaryKey(autoGenerate = true)
     private int id;
     @ColumnInfo(name = "name")
-    private String name;
+    private final String name;
     @ColumnInfo(name = "image")
     private int image;
     @Ignore
