@@ -1,4 +1,4 @@
-package com.example.rdsh.testapp.Activities.main.adapters;
+package com.example.rdsh.testapp.activities.main.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -10,11 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rdsh.testapp.Activities.main.MainActivity;
+import com.example.rdsh.testapp.activities.main.MainActivity;
 import com.example.rdsh.testapp.data.User;
 import com.example.rdsh.testapp.R;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 import java.util.List;
@@ -77,26 +75,31 @@ public class ListAdapter extends BaseAdapter {
         User user = getUser(position);
 
         holder.userName.setText(user.getName());
-        if (user.getChatHistory().get((user.getChatHistory().size() - 1)).getIsFromMe() == 1)
-            holder.lastMessage.setText("me:" + user.getChatHistory()
-                    .get((user.getChatHistory().size() - 1)).getMessage());
-        else
-            holder.lastMessage.setText(user.getChatHistory()
-                    .get((user.getChatHistory().size() - 1)).getMessage());
-
-        long dateNow = new Date().getTime();
-
-        Date date = new Date(user.getChatHistory()
-                .get((user.getChatHistory().size() - 1)).getTime());
-        int dayMillis = 86400000;
-        if (dateNow / dayMillis - user.getChatHistory()
-                .get((user.getChatHistory().size() - 1)).getTime() / dayMillis >= 1) {
-            holder.time.setText(MainActivity.formatForDateNow.format(date));
-        } else if (dateNow / dayMillis - user.getChatHistory()
-                .get((user.getChatHistory().size() - 1)).getTime() / dayMillis == 0) {
-            holder.time.setText(MainActivity.formatForTimeNow.format(date));
+        if (user.getChatHistory().size() == 0) {
+            holder.lastMessage.setText("No messages yet");
+        } else {
+            if (user.getChatHistory().get((user.getChatHistory().size() - 1)).getIsFromMe() == 1)
+                holder.lastMessage.setText("me:" + user.getChatHistory()
+                        .get((user.getChatHistory().size() - 1)).getMessage());
+            else
+                holder.lastMessage.setText(user.getChatHistory()
+                        .get((user.getChatHistory().size() - 1)).getMessage());
         }
 
+        long dateNow = new Date().getTime();
+        Date date;
+        if (user.getChatHistory().size() != 0) {
+            date = new Date(user.getChatHistory()
+                    .get((user.getChatHistory().size() - 1)).getTime());
+            int dayMillis = 86400000;
+            if (dateNow / dayMillis - user.getChatHistory()
+                    .get((user.getChatHistory().size() - 1)).getTime() / dayMillis >= 1) {
+                holder.time.setText(MainActivity.formatForDateNow.format(date));
+            } else if (dateNow / dayMillis - user.getChatHistory()
+                    .get((user.getChatHistory().size() - 1)).getTime() / dayMillis == 0) {
+                holder.time.setText(MainActivity.formatForTimeNow.format(date));
+            }
+        }
         holder.image.setImageResource(user.getImage());
         return view;
     }

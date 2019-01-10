@@ -1,4 +1,4 @@
-package com.example.rdsh.testapp.Activities.main;
+package com.example.rdsh.testapp.activities.main;
 
 import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
@@ -14,8 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.rdsh.testapp.data.MyAppDatabase;
-import com.example.rdsh.testapp.Activities.main.fragments.ChatFragment;
-import com.example.rdsh.testapp.Activities.main.fragments.ListFragment;
+import com.example.rdsh.testapp.activities.main.fragments.ChatFragment;
+import com.example.rdsh.testapp.activities.main.fragments.ListFragment;
 import com.example.rdsh.testapp.data.Message;
 import com.example.rdsh.testapp.data.User;
 import com.example.rdsh.testapp.MyApplication;

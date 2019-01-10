@@ -6,10 +6,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.main.fragments.ChatFragment">
+    tools:context=".activities.main.fragments.ChatFragment">
 
-    <ListView
-        android:id="@+id/listview_message_list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rec_message_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:divider="@null"

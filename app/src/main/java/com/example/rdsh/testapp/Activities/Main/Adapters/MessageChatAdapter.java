@@ -1,119 +1,234 @@
-package com.example.rdsh.testapp.Activities.main.adapters;
+package com.example.rdsh.testapp.activities.main.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.rdsh.testapp.Activities.main.MainActivity;
+import com.example.rdsh.testapp.activities.main.MainActivity;
 import com.example.rdsh.testapp.R;
 import com.example.rdsh.testapp.data.Message;
 
 import java.util.Date;
 import java.util.List;
 
-public class MessageChatAdapter extends BaseAdapter {
+public class MessageChatAdapter extends RecyclerView.Adapter<MessageChatAdapter.MyViewHolder> {
 
     private static final int dayMillis = 86400000;
-    private final LayoutInflater lInflater;
-    private List<Message> messages;
+    private static List<Message> messages;
+    private static LayoutInflater lInflater;
 
     public MessageChatAdapter(Context context, List<Message> messages) {
-        this.messages = messages;
+        MessageChatAdapter.messages = messages;
         lInflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public void updateList(List<Message> messages) {
-        this.messages.clear();
-        this.messages = messages;
+        MessageChatAdapter.messages.clear();
+        MessageChatAdapter.messages = messages;
         this.notifyDataSetChanged();
     }
 
     @Override
-    public int getCount() {
-        return messages.size();
+    public int getItemViewType(int position) {
+        return messages.get(position).getIsFromMe();
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = null;
+        switch (i) {
+            case 1:
+                view = lInflater.inflate(R.layout.layout_chat_out, viewGroup, false);
+                break;
+            case 0:
+                view = lInflater.inflate(R.layout.layout_chat_in, viewGroup, false);
+                break;
+        }
+        return new MyViewHolder(view, i);
     }
 
     @Override
-    public Message getItem(int position) {
-        return messages.get(position);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
+        Date date = new Date(messages.get(position).getTime());
+
+        if (messages.get(position).getIsFromMe() == MainActivity.TRUE) {
+            holder.tvMessage.setText(messages.get(position).getMessage());
+            holder.tvTime.setText(MainActivity.formatForTimeNow.
+                    format(date));
+            //date comparing for chat division by date
+            if (position == 0) {
+                holder.tvDay.setText(MainActivity.formatForDateNow.format(date));
+            } else {
+                long date1 = messages.get(position).getTime();
+                long date2 = messages.get(position - 1).getTime();
+
+                if (date1 / dayMillis > date2 / dayMillis) {
+                    holder.tvDay.setText(MainActivity.formatForDateNow.format(date));
+                } else {
+                    holder.tvDay.setVisibility(View.GONE);
+                }
+            }
+        } else if (messages.get(position).getIsFromMe() == MainActivity.FALSE) {
+            messages.get(position).setIsReaded(1);
+            holder.tvMessage.setText(messages.get(position).getMessage());
+            holder.tvTime.setText(MainActivity.formatForTimeNow.
+                    format(date));
+            //date comparing for chat division by date
+            if (position == 0) {
+                holder.tvDay.setText(MainActivity.formatForDateNow.
+                        format(date));
+                //set image just for first message
+                holder.image.setImageResource(MainActivity.myAppDatabase.daoUser()
+                        .getUserById(messages.get(0).getUser_id()).getImage());
+            } else {
+                long date1 = messages.get(position).getTime();
+                long date2 = messages.get(position - 1).getTime();
+                if (messages.get(position - 1).getIsFromMe() == MainActivity.FALSE) {
+                    holder.card.setVisibility(View.INVISIBLE);
+                } else if (messages.get(position - 1).getIsFromMe() == MainActivity.TRUE) {
+                    holder.image.setImageResource(MainActivity.myAppDatabase.daoUser().
+                            getUserById(messages.get(0).getUser_id()).getImage());
+                }
+                if (date1 / dayMillis > date2 / dayMillis) {
+                    holder.tvDay.setText(MainActivity.formatForDateNow.
+                            format(date));
+                } else {
+                    holder.tvDay.setVisibility(View.GONE);
+                }
+            }
+
+        }
+        holder.setIsRecyclable(false);
     }
+
 
     @Override
     public long getItemId(int position) {
         return position;
     }
 
-    @SuppressLint("SimpleDateFormat")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public int getItemCount() {
+        return messages.size();
+    }
 
-        View view = convertView;
+    public static int getCount() {
+        return messages.size();
+    }
 
-        Date date = new Date(messages.get(position).getTime());
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView tvMessage;
+        TextView tvTime;
+        TextView tvDay;
+        ImageView image;
+        CardView card;
 
-        if (messages.get(position).getIsFromMe() == 1) {
-            view = lInflater.inflate(R.layout.layout_chat_out, parent, false);
-            ((TextView) view.findViewById(R.id.message)).setText(messages.get(position).getMessage());
-            ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForTimeNow.
-                    format(date));
-            //date comparing for chat division by date
-            if (position == 0) {
-                ((TextView) view.findViewById(R.id.day)).setText(MainActivity.formatForDateNow.
-                        format(date));
-            } else {
-                long date1 = messages.get(position).getTime();
-                long date2 = messages.get(position - 1).getTime();
-
-                if (date1 / dayMillis > date2 / dayMillis) {
-                    ((TextView) view.findViewById(R.id.day)).setText(MainActivity.formatForDateNow.
-                            format(date));
-                } else {
-                    view.findViewById(R.id.day).setVisibility(View.GONE);
-                }
-            }
-
-        } else if (messages.get(position).getIsFromMe() == 0) {
-            messages.get(position).setIsReaded(1);
-            view = lInflater.inflate(R.layout.layout_chat_in, parent, false);
-            ((TextView) view.findViewById(R.id.message)).setText(messages.get(position).getMessage());
-            ((TextView) view.findViewById(R.id.time)).setText(MainActivity.formatForTimeNow.
-                    format(date));
-            ImageView imageView = view.findViewById(R.id.imageChat);
-            CardView cardView = view.findViewById(R.id.cardChat);
-            //date comparing for chat division by date
-            if (position == 0) {
-                ((TextView) view.findViewById(R.id.day)).setText(MainActivity.formatForDateNow.
-                        format(date));
-                //set image just for first message
-                imageView.setImageResource(MainActivity.myAppDatabase.daoUser()
-                        .getUserById(messages.get(0).getUser_id()).getImage());
-
-            } else {
-                long date1 = messages.get(position).getTime();
-                long date2 = messages.get(position - 1).getTime();
-                if (messages.get(position - 1).getIsFromMe() == 0) {
-                    cardView.setVisibility(View.INVISIBLE);
-                } else if (messages.get(position - 1).getIsFromMe() == 1) {
-                    imageView.setImageResource(MainActivity.myAppDatabase.daoUser().
-                            getUserById(messages.get(0).getUser_id()).getImage());
-                }
-                if (date1 / dayMillis > date2 / dayMillis) {
-                    ((TextView) view.findViewById(R.id.day)).setText(MainActivity.formatForDateNow.
-                            format(date));
-                } else {
-                    view.findViewById(R.id.day).setVisibility(View.GONE);
-                }
+        MyViewHolder(View view, int i) {
+            super(view);
+            switch (i) {
+                case 1:
+                    tvMessage = view.findViewById(R.id.message);
+                    tvTime = view.findViewById(R.id.time);
+                    tvDay = view.findViewById(R.id.day);
+                    break;
+                case 0:
+                    tvMessage = view.findViewById(R.id.message);
+                    tvTime = view.findViewById(R.id.time);
+                    tvDay = view.findViewById(R.id.day);
+                    image = view.findViewById(R.id.imageChat);
+                    card = view.findViewById(R.id.cardChat);
+                    break;
             }
         }
-        return view;
     }
+
+//    @SuppressLint("SimpleDateFormat")
+//    public View getView(int position, View convertView, ViewGroup parent) {
+//        View v = convertView;
+//        MyViewHolder holder;
+//
+//        if (position == messages.size() - 1) {
+//            v = null;
+//        } else if (messages.get(position).getIsFromMe() != messages.get(lastPosition).getIsFromMe()) {
+//            v = null;
+//        }
+//
+//        lastPosition = position;
+//
+//        Date date = new Date(messages.get(position).getTime());
+//
+//        if (messages.get(position).getIsFromMe() == MainActivity.TRUE) {
+//            if (v == null) {
+//                v = lInflater.inflate(R.layout.layout_chat_out, parent, false);
+//                holder = new MyViewHolder(v, messages.get(position).getIsFromMe());
+//                v.setTag(holder);
+//            } else {
+//                holder = (MyViewHolder) v.getTag();
+//            }
+//            holder.tvMessage.setText(messages.get(position).getMessage());
+//            holder.tvTime.setText(MainActivity.formatForTimeNow.
+//                    format(date));
+//            //date comparing for chat division by date
+//            if (position == 0) {
+//                holder.tvDay.setText(MainActivity.formatForDateNow.format(date));
+//            } else {
+//                long date1 = messages.get(position).getTime();
+//                long date2 = messages.get(position - 1).getTime();
+//
+//                if (date1 / dayMillis > date2 / dayMillis) {
+//                    holder.tvDay.setText(MainActivity.formatForDateNow.format(date));
+//                } else {
+//                    holder.tvDay.setVisibility(View.GONE);
+//                }
+//            }
+//        } else if (messages.get(position).getIsFromMe() == MainActivity.FALSE) {
+//            if (v == null) {
+//                v = lInflater.inflate(R.layout.layout_chat_in, parent, false);
+//                holder = new MyViewHolder(v, messages.get(position).getIsFromMe());
+//                v.setTag(holder);
+//            } else {
+//                holder = (MyViewHolder) v.getTag();
+//            }
+//            messages.get(position).setIsReaded(1);
+//            holder.tvMessage.setText(messages.get(position).getMessage());
+//            holder.tvTime.setText(MainActivity.formatForTimeNow.
+//                    format(date));
+//            //date comparing for chat division by date
+//            if (position == 0) {
+//                holder.tvDay.setText(MainActivity.formatForDateNow.
+//                        format(date));
+//                //set image just for first message
+//                holder.image.setImageResource(MainActivity.myAppDatabase.daoUser()
+//                        .getUserById(messages.get(0).getUser_id()).getImage());
+//            } else {
+//                long date1 = messages.get(position).getTime();
+//                long date2 = messages.get(position - 1).getTime();
+//                if (messages.get(position - 1).getIsFromMe() == MainActivity.FALSE) {
+//                    holder.card.setVisibility(View.INVISIBLE);
+//                } else if (messages.get(position - 1).getIsFromMe() == MainActivity.TRUE) {
+//                    holder.image.setImageResource(MainActivity.myAppDatabase.daoUser().
+//                            getUserById(messages.get(0).getUser_id()).getImage());
+//                }
+//                if (date1 / dayMillis > date2 / dayMillis) {
+//                    holder.tvDay.setText(MainActivity.formatForDateNow.
+//                            format(date));
+//                } else {
+//                    holder.tvDay.setVisibility(View.GONE);
+//                }
+//            }
+//        }
+//        convertView = v;
+//        return convertView;
+//    }
 
 //    private Message getMessage(int position) {
 //        return (getItem(position));

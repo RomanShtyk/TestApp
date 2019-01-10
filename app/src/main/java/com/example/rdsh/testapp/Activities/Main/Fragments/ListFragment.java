@@ -1,4 +1,4 @@
-package com.example.rdsh.testapp.Activities.main.fragments;
+package com.example.rdsh.testapp.activities.main.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.rdsh.testapp.Activities.main.MainActivity;
-import com.example.rdsh.testapp.Activities.main.adapters.ListAdapter;
+import com.example.rdsh.testapp.activities.main.MainActivity;
+import com.example.rdsh.testapp.activities.main.adapters.ListAdapter;
 import com.example.rdsh.testapp.data.User;
 import com.example.rdsh.testapp.R;
 
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.example.rdsh.testapp.Activities.main.MainActivity.chatFragment;
+import static com.example.rdsh.testapp.activities.main.MainActivity.chatFragment;
 
 
 public class ListFragment extends Fragment {
@@ -82,7 +82,9 @@ public class ListFragment extends Fragment {
             int currentMax = 0;
             long currentLong = 0;
             for (int j = 0; j < size - i; j++) {
-                if (users.get(j).getChatHistory().get(users.get(j).getChatHistory().size() - 1).getTime() > currentLong) {
+                if(users.get(j).getChatHistory().size() == 0){
+                    break;
+                } else if (users.get(j).getChatHistory().get(users.get(j).getChatHistory().size() - 1).getTime() > currentLong) {
                     currentLong = users.get(j).getChatHistory().get(users.get(j).getChatHistory().size() - 1).getTime();
                     currentMax = j;
                 }

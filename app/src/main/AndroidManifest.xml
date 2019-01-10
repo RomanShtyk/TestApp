@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         android:fullBackupContent="@xml/backup_descriptor">
-        <activity android:name=".Activities.main.MainActivity"
+        <activity android:name=".activities.main.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="sensor"
             tools:ignore="InnerclassSeparator">

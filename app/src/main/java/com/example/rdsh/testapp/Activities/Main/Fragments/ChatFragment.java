@@ -1,4 +1,4 @@
-package com.example.rdsh.testapp.Activities.main.fragments;
+package com.example.rdsh.testapp.activities.main.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
@@ -12,16 +12,17 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
-import com.example.rdsh.testapp.Activities.main.MainActivity;
-import com.example.rdsh.testapp.Activities.main.adapters.MessageChatAdapter;
+import com.example.rdsh.testapp.activities.main.MainActivity;
+import com.example.rdsh.testapp.activities.main.adapters.MessageChatAdapter;
 import com.example.rdsh.testapp.data.Message;
 import com.example.rdsh.testapp.data.User;
 import com.example.rdsh.testapp.R;
@@ -30,10 +31,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static com.example.rdsh.testapp.Activities.main.MainActivity.FALSE;
-import static com.example.rdsh.testapp.Activities.main.MainActivity.TRUE;
-import static com.example.rdsh.testapp.Activities.main.MainActivity.chatFragment;
-import static com.example.rdsh.testapp.Activities.main.MainActivity.fragmentChatList;
+import static com.example.rdsh.testapp.activities.main.MainActivity.FALSE;
+import static com.example.rdsh.testapp.activities.main.MainActivity.TRUE;
+import static com.example.rdsh.testapp.activities.main.MainActivity.chatFragment;
+import static com.example.rdsh.testapp.activities.main.MainActivity.fragmentChatList;
 
 public class ChatFragment extends Fragment {
 
@@ -46,6 +47,8 @@ public class ChatFragment extends Fragment {
     private List<User> sortedList;
 
     private int finalItemPosition1;
+
+    private RecyclerView lvMain;
 
 
     @Override
@@ -65,8 +68,12 @@ public class ChatFragment extends Fragment {
 
         messageChatAdapter = new MessageChatAdapter(view.getContext(), sortedList.get(itemPosition)
                 .getChatHistory());
-        final ListView lvMain = view.findViewById(R.id.listview_message_list);
+        lvMain = view.findViewById(R.id.rec_message_list);
+        LinearLayoutManager lm = new LinearLayoutManager(view.getContext());
+        lm.setStackFromEnd(true);
+        lvMain.setLayoutManager(lm);
         lvMain.setAdapter(messageChatAdapter);
+
         finalItemPosition1 = itemPosition;
         uiInit(view);
         Log.d("mLog", "ChatFragment onCreateView");
@@ -110,6 +117,7 @@ public class ChatFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", 0);
                 chatFragment.setArguments(bundle);
+                lvMain.scrollToPosition(MessageChatAdapter.getCount() - 1);
             }
 
         });
