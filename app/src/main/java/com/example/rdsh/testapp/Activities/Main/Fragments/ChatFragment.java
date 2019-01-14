@@ -46,7 +46,7 @@ public class ChatFragment extends Fragment {
 
     private List<User> sortedList;
 
-    private int finalItemPosition1;
+    private int itemPosition;
 
     private RecyclerView lvMain;
 
@@ -56,9 +56,10 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_chat, container, false);
 
-        int itemPosition = 0;
+        itemPosition = 0;
         if (getArguments() != null)
             itemPosition = getArguments().getInt("position");
+
         List<User> users = MainActivity.myAppDatabase.daoUser().getAll();
         for (User u : users) {
             u.setChatHistory(MainActivity.myAppDatabase.daoMessage().getChatByUserId(u.getId()));
@@ -66,6 +67,14 @@ public class ChatFragment extends Fragment {
         sortedList = ListFragment.sort(users);
         title = sortedList.get(itemPosition).getName();
 
+        recyclerViewListIInit(view, itemPosition);
+
+        uiInit(view);
+        Log.d("mLog", "ChatFragment onCreateView");
+        return view;
+    }
+
+    private void recyclerViewListIInit(View view, int itemPosition) {
         messageChatAdapter = new MessageChatAdapter(view.getContext(), sortedList.get(itemPosition)
                 .getChatHistory());
         lvMain = view.findViewById(R.id.rec_message_list);
@@ -73,12 +82,8 @@ public class ChatFragment extends Fragment {
         lm.setStackFromEnd(true);
         lvMain.setLayoutManager(lm);
         lvMain.setAdapter(messageChatAdapter);
-
-        finalItemPosition1 = itemPosition;
-        uiInit(view);
-        Log.d("mLog", "ChatFragment onCreateView");
-        return view;
     }
+
 
     private void uiInit(View view) {
         Button sendButton = view.findViewById(R.id.button_chatbox_send);
@@ -106,12 +111,15 @@ public class ChatFragment extends Fragment {
                 String newMessage = creatorEd.getText().toString();
                 creatorEd.setText("");
                 long time = new Date().getTime();
-                Message message = new Message(newMessage, time, TRUE, sortedList.get(finalItemPosition1).getId(), 0);
+                Message message = new Message(newMessage,
+                        time, TRUE,
+                        sortedList.get(itemPosition).getId(), 0);
                 MainActivity.myAppDatabase.daoMessage().addMessage(message);
                 messageChatAdapter.updateList(MainActivity.myAppDatabase.daoMessage()
-                        .getChatByUserId(sortedList.get(finalItemPosition1).getId()));
+                        .getChatByUserId(sortedList.get(itemPosition).getId()));
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    Objects.requireNonNull(getFragmentManager()).beginTransaction().detach(fragmentChatList)
+                    Objects.requireNonNull(getFragmentManager()).beginTransaction()
+                            .detach(fragmentChatList)
                             .attach(fragmentChatList).commit();
                 }
                 Bundle bundle = new Bundle();
@@ -144,7 +152,7 @@ public class ChatFragment extends Fragment {
         final NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(getActivity(), "my_channel0");
 
-        final Handler h = new Handler();
+        final Handler handler = new Handler();
         return new Runnable() {
             //stops after n+1 times
             final int nTimes = 1;
@@ -155,23 +163,25 @@ public class ChatFragment extends Fragment {
                 if (!stopMe) {
                     long date = new Date().getTime();
                     Message message = new Message("testNotify #" + (i++ + 1),
-                            date, FALSE, sortedList.get(finalItemPosition1).getId(), 0);
+                            date, FALSE, sortedList.get(itemPosition).getId(), 0);
                     MainActivity.myAppDatabase.daoMessage().addMessage(message);
                     if (i > nTimes) {
                         stopMe = true;
                     }
                     builder.setSmallIcon(R.drawable.ic_launcher_background)
-                            .setContentTitle("New bubble_out from: " + sortedList.get(finalItemPosition1).getName())
-                            .setContentText(message.getMessage());
+                            .setContentTitle("New bubble_out from: "
+                                    + sortedList.get(itemPosition).getName())
+                                    .setContentText(message.getMessage());
 
                     notificationManager.notify(1, builder.build());
                     messageChatAdapter.updateList(MainActivity.myAppDatabase.daoMessage()
-                            .getChatByUserId(sortedList.get(finalItemPosition1).getId()));
+                            .getChatByUserId(sortedList.get(itemPosition).getId()));
                     if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        Objects.requireNonNull(getFragmentManager()).beginTransaction().detach(fragmentChatList)
+                        Objects.requireNonNull(getFragmentManager()).beginTransaction()
+                                .detach(fragmentChatList)
                                 .attach(fragmentChatList).commit();
                     }
-                    h.postDelayed(this, 1000);
+                    handler.postDelayed(this, 1000);
 
                 }
             }

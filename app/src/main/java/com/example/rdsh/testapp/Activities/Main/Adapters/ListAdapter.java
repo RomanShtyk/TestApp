@@ -16,7 +16,7 @@ import com.example.rdsh.testapp.R;
 import java.util.Date;
 import java.util.List;
 
-import static com.example.rdsh.testapp.Values.dayMillis;
+import static com.example.rdsh.testapp.Values.DAY_MILLISECONDS;
 import static com.example.rdsh.testapp.Values.formatForDateNow;
 import static com.example.rdsh.testapp.Values.formatForTimeNow;
 
@@ -44,20 +44,6 @@ public class ListAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
-    }
-
-    class MyViewHolder {
-        final TextView userName;
-        final TextView lastMessage;
-        final TextView time;
-        final ImageView image;
-
-        MyViewHolder(View view) {
-            userName = view.findViewById(R.id.userName);
-            lastMessage = view.findViewById(R.id.lastMessage);
-            time = view.findViewById(R.id.time);
-            image = view.findViewById(R.id.image);
-        }
     }
 
     @SuppressLint({"SetTextI18n", "SimpleDateFormat"})
@@ -94,11 +80,11 @@ public class ListAdapter extends BaseAdapter {
         if (user.getChatHistory().size() != 0) {
             date = new Date(user.getChatHistory()
                     .get((user.getChatHistory().size() - 1)).getTime());
-            if (dateNow / dayMillis - user.getChatHistory()
-                    .get((user.getChatHistory().size() - 1)).getTime() / dayMillis >= 1) {
+            if (dateNow / DAY_MILLISECONDS - user.getChatHistory()
+                    .get((user.getChatHistory().size() - 1)).getTime() / DAY_MILLISECONDS >= 1) {
                 holder.time.setText(formatForDateNow.format(date));
-            } else if (dateNow / dayMillis - user.getChatHistory()
-                    .get((user.getChatHistory().size() - 1)).getTime() / dayMillis == 0) {
+            } else if (dateNow / DAY_MILLISECONDS - user.getChatHistory()
+                    .get((user.getChatHistory().size() - 1)).getTime() / DAY_MILLISECONDS == 0) {
                 holder.time.setText(formatForTimeNow.format(date));
             }
         }
@@ -109,4 +95,20 @@ public class ListAdapter extends BaseAdapter {
     private User getUser(int position) {
         return ((User) getItem(position));
     }
+
+
+    class MyViewHolder {
+        final TextView userName;
+        final TextView lastMessage;
+        final TextView time;
+        final ImageView image;
+
+        MyViewHolder(View view) {
+            userName = view.findViewById(R.id.userName);
+            lastMessage = view.findViewById(R.id.lastMessage);
+            time = view.findViewById(R.id.time);
+            image = view.findViewById(R.id.image);
+        }
+    }
+
 }

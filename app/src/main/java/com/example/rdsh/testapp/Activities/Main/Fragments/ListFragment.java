@@ -78,6 +78,9 @@ public class ListFragment extends Fragment {
     public static List<User> sort(List<User> users) {
         List<User> sortedList = new ArrayList<>();
         int size = users.size();
+        if(size == 0){
+            return sortedList;//for no contacts
+        }
         for (int i = 0; i < size; i++) {
             int currentMax = 0;
             long currentLong = 0;

@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 
 public class Values {
 
-    public static final int dayMillis = 86400000;
+    public static final int DAY_MILLISECONDS = 86400000;
     public static final int TRUE = 1;
     public static final int FALSE = 0;
 
@@ -15,3 +15,4 @@ public class Values {
     @SuppressLint("SimpleDateFormat")
     public static final SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd MMM yyyy");
 }
+
